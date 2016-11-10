@@ -4,10 +4,12 @@ package com.mentorandroid.startmhf.fragments;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +17,7 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
 import com.mentorandroid.startmhf.R;
+import com.mentorandroid.startmhf.util.Util;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -27,10 +30,10 @@ public class BlankFragment extends Fragment {
     }
 
     private View rootView;
-
     WebView web;
     private View mProgressView;
     private View mWebView;
+    private Context ctx;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -43,15 +46,30 @@ public class BlankFragment extends Fragment {
         web.setWebViewClient(new myWebClient());
         showProgress(true);
         web.getSettings().setJavaScriptEnabled(true);
-
-        //web.loadUrl("http://www.workmates.com.br/index.php/contato/compartilhar_marmita");
-
-        web.loadUrl("file:///android_asset/html_local.html");
+        ctx = getActivity();
 
 
+        //Verifica se a internet esta disponivel
+        if (Util.isNetworkAvailable(ctx)) {
+
+            //HTML 5 carregado localmente
+            String url ="file:///android_asset/html_local.html";
+
+            //HTML 5 carregado da internet
+            //String url = "https://www.softwareon.com.br/marmita";
+
+            //Log para mostrar no logcat do Android Studio a url
+            Log.i("URL ->",url);
+            web.loadUrl(url);
+
+
+        }else{
+            //HTML 5 de mensagem de sem conexao
+            String url ="file:///android_asset/sem_conexao.html";
+            web.loadUrl(url);
+        }
         return rootView;
 
-        //web_view_linear
     }
 
     @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
@@ -87,6 +105,7 @@ public class BlankFragment extends Fragment {
         }
     }
 
+    //Classe para tratar a chamada da WebView
     public class myWebClient extends WebViewClient
     {
         @Override
@@ -108,6 +127,8 @@ public class BlankFragment extends Fragment {
             super.onPageFinished(view, url);
             showProgress(false);
         }
+
+        //Redireciona para HTML de erro caso nao consiga conectar ou carregar a url
         public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
             view.loadUrl("file:///android_asset/sem_conexao.html");
         }
