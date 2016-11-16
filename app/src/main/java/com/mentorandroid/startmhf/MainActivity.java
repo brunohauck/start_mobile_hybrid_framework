@@ -82,13 +82,9 @@ public class MainActivity extends AppCompatActivity
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
-        // Handle navigation view item clicks here.
-
         // Nesta parte do codigo voce deve tratar as acoes do menu lateral
         int id = item.getItemId();
-
         // Esse ID ou identificador esta diretamente ligado ao arquivo /res/menu/activity_main_drawer
-
         /* copia do arquivo de menu
          <item
             android:id="@+id/nav_about" ---> esse seria o ID que esta no if que vai diferenciar qual acao tomar ao clicar no menu
@@ -109,7 +105,6 @@ public class MainActivity extends AppCompatActivity
                     getSupportActionBar().setTitle(title);
                 }
             }
-
         } else if (id == R.id.nav_share) {
             Fragment fragment = new HelloFragment();
             String title = "HELLO FRAGMENT";
@@ -122,6 +117,18 @@ public class MainActivity extends AppCompatActivity
                 }
             }
 
+        }
+        else if (id == R.id.nav_share1) {
+            Fragment fragment = new HelloFragment();
+            String title = "HELLO FRAGMENT";
+            if (fragment != null) {
+                FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+                ft.replace(R.id.container_body, fragment);
+                ft.commit();
+                if (getSupportActionBar() != null) {
+                    getSupportActionBar().setTitle(title);
+                }
+            }
 
         }
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

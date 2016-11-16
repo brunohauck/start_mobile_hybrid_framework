@@ -48,15 +48,14 @@ public class BlankFragment extends Fragment {
         web.getSettings().setJavaScriptEnabled(true);
         ctx = getActivity();
 
-
         //Verifica se a internet esta disponivel
         if (Util.isNetworkAvailable(ctx)) {
 
             //HTML 5 carregado localmente
-            String url ="file:///android_asset/html_local.html";
+            //String url ="file:///android_asset/teste.html";
 
             //HTML 5 carregado da internet
-            //String url = "https://www.softwareon.com.br/marmita";
+            String url = "https://www.softwareon.com.br/marmita";
 
             //Log para mostrar no logcat do Android Studio a url
             Log.i("URL ->",url);
